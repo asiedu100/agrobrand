@@ -150,7 +150,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 /* ==========================================================================
    Nav
    ========================================================================== */
-.site-nav { position: relative; background: var(--color-cream); border-bottom: 1px solid var(--color-border); }
+.site-nav { position: relative; z-index: 100; background: var(--color-cream); border-bottom: 1px solid var(--color-border); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 18px var(--space-6); }
 .brand { display: flex; align-items: center; gap: 11px; }
 .brand:hover { color: var(--color-forest); }
@@ -159,7 +159,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .brand-name { font-family: var(--font-heading); font-weight: 800; font-size: 16px; color: var(--color-forest); letter-spacing: 0.01em; }
 .brand-sub { font-family: var(--font-heading); font-weight: 700; font-size: 9.5px; letter-spacing: 0.16em; color: var(--color-earth); }
 
-.desktop-nav { display: flex; align-items: center; gap: 22px; }
+.desktop-nav { display: flex; align-items: center; gap: 22px; margin-left: auto; }
 .desktop-nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
 .desktop-nav a { font-size: 13.5px; font-weight: 500; color: var(--color-text); }
 .desktop-nav a:hover { color: var(--color-forest); }
@@ -173,10 +173,38 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .mobile-menu a[aria-current='page'] { color: var(--color-gold-light); font-weight: 700; }
 .mobile-cta { width: 100%; }
 
-@media (max-width: 900px) {
+@media (max-width: 1120px) {
   .desktop-nav { display: none; }
   .menu-toggle { display: flex; }
 }
+
+/* Language switcher (drives the Google Translate widget, see js/main.js) */
+.lang-switch { position: relative; margin-left: 20px; }
+@media (max-width: 1120px) { .lang-switch { margin-left: auto; margin-right: 8px; } }
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; border: 1px solid var(--color-placeholder-border); border-radius: var(--radius);
+  padding: 8px 10px; cursor: pointer;
+  font-family: var(--font-body); font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--color-forest);
+}
+.lang-btn:hover, .lang-btn[aria-expanded='true'] { border-color: var(--color-forest); }
+.lang-menu {
+  list-style: none; margin: 0; padding: 6px 0;
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 1; min-width: 150px;
+  background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(42, 38, 34, 0.14);
+}
+.lang-menu button {
+  display: block; width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+  padding: 9px 16px; font-family: var(--font-body); font-size: 13.5px; color: var(--color-text);
+}
+.lang-menu button:hover { background: var(--color-sand); }
+.lang-menu button[aria-current='true'] { color: var(--color-forest); font-weight: 700; }
+
+/* Hide Google Translate's own banner/tooltip so only our switcher shows */
+body { top: 0 !important; }
+body > .skiptranslate, iframe.skiptranslate, .goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt { display: none !important; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }
 
 /* ==========================================================================
    Global Markets hero (image + scrim, same pattern as the homepage hero)
@@ -263,6 +291,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .products-grid-5 { grid-template-columns: repeat(5, 1fr); }
 .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; }
+.team-preview-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+@media (max-width: 900px) { .team-preview-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .team-preview-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px) { .team-preview-grid { grid-template-columns: 1fr; } }
 
 /* product card */
 .product-card { background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius); display: flex; flex-direction: column; overflow: hidden; }

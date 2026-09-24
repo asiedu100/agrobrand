@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.naturaagrobrand.com/sitemap.xml
+Sitemap: https://www.naturaagrob.com/sitemap.xml
