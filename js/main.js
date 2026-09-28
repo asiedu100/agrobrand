@@ -20,6 +20,37 @@
   });
 })();
 
+(function themeToggle() {
+  var button = document.querySelector('.theme-toggle');
+  if (!button) return;
+
+  var root = document.documentElement;
+  var themeColor = document.querySelector('meta[name="theme-color"]');
+
+  function sync() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    var label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    button.setAttribute('aria-label', label);
+    button.setAttribute('title', label);
+    if (themeColor) themeColor.setAttribute('content', dark ? '#12201A' : '#FAF8F5');
+  }
+
+  button.addEventListener('click', function () {
+    var willBeDark = root.getAttribute('data-theme') !== 'dark';
+    if (willBeDark) {
+      root.setAttribute('data-theme', 'dark');
+    } else {
+      root.removeAttribute('data-theme');
+    }
+    try {
+      localStorage.setItem('natura-theme', willBeDark ? 'dark' : 'light');
+    } catch (e) {}
+    sync();
+  });
+
+  sync();
+})();
+
 (function languageSwitcher() {
   var root = document.querySelector('.lang-switch');
   if (!root) return;

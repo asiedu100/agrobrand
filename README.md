@@ -43,7 +43,7 @@ To swap or add a photo: put the image file in `images/`, then reference it as `i
 
 ## What's confirmed and live
 
-- **Team** (`team.html` + homepage preview): Dr. Boakye Danquah Oliver (Co-Founder & CEO), Ing. Adomako Yaw Benajah (Co-Founder & Chairman), Lawrencia Asieduah Osei (CFO), David Etim (Europe Presiding Representative, Germany), Rev. Joseph Benjamin Lomo Mainoo (Non-Executive Director, Partnership), Daniella Afrakumah Danquah (Administrator).
+- **Team** (`team.html` + homepage preview): Dr. Boakye Danquah Oliver (Co-Founder & CEO), Ing. Adomako Yaw Benajah (Co-Founder & Chairman), Lawrencia Asieduah Osei (CFO), David Etim (Europe Presiding Representative, Germany), Rev. Joseph Benjamin Lomo Mainoo (Non-Executive Director, Partnership), Daniella Afrakumah Danquah (Administrator), Asiedu Yamoah Akwasi (Technology & Digital Operations Manager).
 - **Impact stats** (homepage): 1,000+ Farmers Empowered, 50,000+ Tons Exported, 25+ Export Destinations, 100% Sustainable, 3+ Years Experience, 5K Hectares, 100% Traceable — each animates in as you scroll to it.
 - **Location**: Ecfactum Limited, Tesano, Accra — shown in every page footer (linked to Google Maps) and embedded as an interactive map on `contact.html`.
 - **Global Markets**: 13 countries across Africa, Europe and the Americas, each with a flag, shown on both the homepage and the dedicated Global Markets page.
@@ -64,15 +64,18 @@ This is a static site — no build step, server or database. It is set up for [N
 ### Netlify setup
 
 1. Add new site → Import from GitHub → `asiedu100/agrobrand`. Production branch: `develop`. Build command: empty. Publish directory: `.` (the repo root).
-2. Site → Domain management: add `www.naturaagrob.com` and set it as the **primary** domain, then add `naturaagrob.com` as a domain alias (Netlify redirects it to the primary).
+2. Site → **Domain management** → **Add a domain** → **Add a domain you already own** → `naturaagrob.com`. Make sure `www.naturaagrob.com` is listed too (add it the same way if not), and set `www.naturaagrob.com` as the **primary** domain (Options → Set as primary domain); Netlify then redirects the bare domain to it.
 3. Point the domain at Netlify. The domain was bought from Aveshost, which manages nameservers from its client area, so the simplest route is **Netlify DNS**:
    - In Netlify, add `naturaagrob.com` and choose **Set up Netlify DNS**; Netlify shows four nameservers.
    - In the Aveshost client area: **Domains → select `naturaagrob.com` → Manage → Nameservers**, replace the existing entries with Netlify's four, then **Change Nameservers**.
    - Nothing else is needed at Aveshost. Propagation can take up to 24–48 hours.
    - Alternative, only if Aveshost's client area shows a DNS record editor for your domain: keep Aveshost's nameservers and add `naturaagrob.com` **A** → `75.2.60.5`, and `www` **CNAME** → `<your-site-name>.netlify.app`. (Netlify recommends a `www` primary in this external-DNS setup.)
    - Note: if you later set up email on this domain, its MX records go in whichever DNS you're using (Netlify DNS after the switch), and any existing Aveshost hosting/email DNS records stop applying once nameservers change.
-4. Once DNS has propagated, open Site → Domain management → HTTPS and provision the free certificate.
+   - Changing nameservers alone publishes nothing: the domain must also be **added to the site** (step 2), which makes Netlify create the `naturaagrob.com` and `www` records. If `dig naturaagrob.com` returns no address, the domain isn't attached to the site yet.
+4. HTTPS is automatic: once the domain is attached and DNS is correct, Netlify issues a free Let's Encrypt certificate by itself (status under Domain management → HTTPS; it can take a few minutes to an hour).
 
 If the domain or primary address ever changes, search the repo for `www.naturaagrob.com` and update it in every page's `<head>`, `sitemap.xml`, `robots.txt` and the structured data in `index.html`.
 
 **Language switcher**: the header language menu (Spanish, German, French, Dutch) uses Google's website-translate widget. It loads Google's script only after a visitor picks a language other than English, so English visitors send nothing to Google.
+
+**Light / dark theme**: the sun/moon button in the header switches themes (light is the default; the choice is remembered per browser in `localStorage`). Colours live as CSS variables at the top of `css/style.css`: `:root` holds the light values and `:root[data-theme='dark']` overrides them. The forest-green bands (hero, footer, mobile menu) and the text on them use fixed brand tokens (`--color-forest`, `--color-cream`, `--color-sand`) so they look the same in both themes; anything that should change with the theme uses `--bg`, `--surface`, `--surface-alt`, `--link` or the text/border tokens. Inline icons use `stroke="currentColor"` so they follow the theme automatically.
